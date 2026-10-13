@@ -1,0 +1,47 @@
+# ============================================================
+# AgroDirecto — Guia de instalacion y arranque (backend)
+# ============================================================
+#
+# 1. Ubicarse en la carpeta del backend
+#    cd backend
+#
+# 2. Crear y activar entorno virtual
+#    Windows (PowerShell):
+#      python -m venv venv
+#      venv\Scripts\activate
+#    Mac/Linux:
+#      python3 -m venv venv
+#      source venv/bin/activate
+#
+# 3. Instalar dependencias
+#    pip install -r requirements.txt
+#    (instala: fastapi, uvicorn, sqlalchemy, psycopg2-binary,
+#     pydantic[email], passlib[bcrypt], bcrypt==4.0.1,
+#     python-jose[cryptography], alembic)
+#
+#
+#    B) Base existente: NO vuelvas a correr el .sql (perderias los datos).
+#       En su lugar, sincroniza el esquema con la migracion (es idempotente,
+#       segura de correr varias veces):
+#         cd scr
+#         python ../migracion_esquema.py
+#         python ../rehash_claves.py
+#         cd ..
+#           
+#
+# 7. Marcar Alembic como sincronizado (una sola vez, despues del paso 6)
+#    cd scr
+#    python -m alembic -c ../alembic.ini stamp head
+#    cd ..
+#    De aqui en adelante, cualquier cambio de esquema se hace con:
+#      alembic revision --autogenerate -m "descripcion"
+#      alembic upgrade head
+#
+# 8. Levantar el servidor
+#    cd scr
+#    uvicorn main:app --reload
+#    Probar en el navegador: http://127.0.0.1:8000/docs
+#    (debe listar los grupos: Autenticacion, Usuarios, Lotes, Reservas,
+#     Pagos, Entregas, Calificaciones, Disputas, Notificaciones,
+#     Incidencias, Reportes, Configuracion, Categorias, Roles, etc.)
+#

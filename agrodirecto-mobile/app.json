@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "AgroDirecto",
+    "slug": "agrodirecto-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#2e7d32"
+      }
+    },
+    "web": {}
+  }
+}

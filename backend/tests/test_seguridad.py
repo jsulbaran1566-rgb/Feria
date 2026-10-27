@@ -119,5 +119,12 @@ for clave in ("corta1!", "sinmayuscula1!", "SinNumero!!", "SinEspecial12"):
 r = client.post("/usuarios", json={**base, "clave": "Segura2026!"})
 check("Registro acepta 'Segura2026!'", r.status_code in (200, 201), r.text)
 
+print("\n=== Cerrar sesión e iniciar de nuevo enseguida ===")
+h1 = token("admin@t.com")
+check("Logout invalida el token", client.post("/auth/logout", headers=h1).status_code == 200)
+check("El token cerrado ya no sirve", client.get("/usuarios/me", headers=h1).status_code == 401)
+h2 = token("admin@t.com")  # mismo usuario, mismo segundo
+check("Un nuevo login inmediato da un token distinto y válido", h2 != h1 and client.get("/usuarios/me", headers=h2).status_code == 200)
+
 print(f"\n{'TODAS LAS PRUEBAS DE SEGURIDAD PASARON' if not fallos else str(fallos) + ' FALLOS'}\n")
 sys.exit(1 if fallos else 0)

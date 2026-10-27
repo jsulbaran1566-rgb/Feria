@@ -2,6 +2,7 @@
 # pip install passlib[bcrypt] python-jose[cryptography]
 
 from datetime import datetime, timedelta
+from uuid import uuid4
 from passlib.context import CryptContext
 from jose import jwt, JWTError
 
@@ -35,7 +36,10 @@ def crear_token(datos: dict, minutos: int = MINUTOS_EXPIRACION_TOKEN) -> str:
     """Crea un token JWT firmado. `minutos` permite tokens de vida corta (ej. recuperación de clave)."""
     datos_token = datos.copy()
     expira = datetime.utcnow() + timedelta(minutes=minutos)
-    datos_token.update({"exp": expira})
+    # "jti" hace único a cada token: sin él, dos tokens creados en el mismo segundo para el
+    # mismo usuario serían idénticos, y al cerrar sesión e iniciar de nuevo enseguida el
+    # token nuevo coincidiría con el recién invalidado (lista negra).
+    datos_token.update({"exp": expira, "jti": uuid4().hex})
     return jwt.encode(datos_token, CLAVE_SECRETA, algorithm=ALGORITMO)
 
 

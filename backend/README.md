@@ -348,6 +348,8 @@ cd backend
 python tests/test_integracion.py
 python tests/test_recuperacion.py
 python tests/test_seguridad.py
+python tests/test_contrato_frontend.py   # datos que envía el frontend vs. esquemas del backend
+python tests/servidor_e2e.py             # servidor de pruebas (SQLite) para `npm run test:e2e` del frontend
 ```
 
 Para arrancar el servidor: `cd scr` y `uvicorn main:app --reload --port 8000`. Las variables de `.env` (`DATABASE_URL`, `CLAVE_SECRETA`) están definidas pero hoy la conexión y la clave JWT se leen de los módulos `Conexion/database.py` y `Utilidades/seguridad.py`.
